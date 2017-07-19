@@ -10,6 +10,6 @@ import UIKit
 
 class InputViewController: UIViewController {
     
-    var addressTextField: UITextField!
+    @IBOutlet var addressTextField: UITextField!
 
 }
