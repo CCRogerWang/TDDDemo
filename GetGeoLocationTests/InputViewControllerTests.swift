@@ -26,4 +26,18 @@ class InputViewControllerTests: XCTestCase {
         _ = sut.view
         XCTAssertNotNil(sut.addressTextField)
     }
+    
+    func test_HasSearchButton() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let sut = storyboard.instantiateViewController(withIdentifier: "InputViewController") as! InputViewController
+        _ = sut.view
+        XCTAssertNotNil(sut.searchButton)
+    }
+    
+    func test_HasGeoLabel() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let sut = storyboard.instantiateViewController(withIdentifier: "InputViewController") as! InputViewController
+        _ = sut.view
+        XCTAssertNotNil(sut.geoLabel)
+    }
 }

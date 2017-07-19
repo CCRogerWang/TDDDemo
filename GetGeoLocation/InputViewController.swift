@@ -11,5 +11,6 @@ import UIKit
 class InputViewController: UIViewController {
     
     @IBOutlet var addressTextField: UITextField!
-
+    @IBOutlet var searchButton: UIButton!
+    @IBOutlet var geoLabel: UILabel!
 }
