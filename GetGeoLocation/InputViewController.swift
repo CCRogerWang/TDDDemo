@@ -14,13 +14,18 @@ class InputViewController: UIViewController {
     @IBOutlet var addressTextField: UITextField!
     @IBOutlet var searchButton: UIButton!
     @IBOutlet var geoLabel: UILabel!
+    lazy var geocoder = CLGeocoder()
+    var coordinate: CLLocationCoordinate2D?
     
-    func searchCoordinate() ->CLLocationCoordinate2D {
-        guard let addressString = addressTextField.text, addressString.characters.count > 0 else {
-            return CLLocationCoordinate2DMake(0,
-                                             0)
+    func search() {
+        guard let address = addressTextField.text, address.characters.count > 0 else {
+            return
         }
-        return CLLocationCoordinate2DMake(37.3316851,
-                                          -122.0300674)
+        geocoder.geocodeAddressString(address) {
+            [unowned self] (placeMarks, error) -> Void in
+            let placeMark = placeMarks?.first
+            self.coordinate = placeMark?.location?.coordinate
+            self.geoLabel.text = "Latitude:\(self.coordinate!.latitude) and longitude:\(self.coordinate!.longitude)"
+        }
     }
 }

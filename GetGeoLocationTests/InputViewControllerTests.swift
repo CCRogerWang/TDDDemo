@@ -13,6 +13,7 @@ import CoreLocation
 class InputViewControllerTests: XCTestCase {
     
     var sut: InputViewController!
+    var placemark: MockPlacemark!
     
     override func setUp() {
         super.setUp()
@@ -38,19 +39,43 @@ class InputViewControllerTests: XCTestCase {
     }
     
     func test_Search_UseGeocoderToGetCoordinateFromAddress() {
-        let coordinate = CLLocationCoordinate2DMake(37.3316851,
-                                                    -122.0300674)
         sut.addressTextField.text = "Infinite Loop 1, Cupertino"
-        let resultCoordinate = sut.searchCoordinate()
-        XCTAssertEqual(coordinate, resultCoordinate)
-        
+        let mockGeocoder = MockGeocoder()
+        sut.geocoder = mockGeocoder
+        sut.search()
+        placemark = MockPlacemark()
+        let coordinate = CLLocationCoordinate2DMake(37.3316851,-122.0300674)
+        placemark.mockCoordinate = coordinate
+        mockGeocoder.completionHandler?([placemark], nil)
+        XCTAssertEqual(coordinate, sut.coordinate)
     }
-    
-    
 }
 
 extension CLLocationCoordinate2D: Equatable {}
 
 public func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
     return (lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude)
+}
+
+extension InputViewControllerTests {
+    
+    class MockGeocoder: CLGeocoder {
+        var completionHandler: CLGeocodeCompletionHandler?
+        override func geocodeAddressString(
+            _ addressString: String,
+            completionHandler: @escaping CLGeocodeCompletionHandler) {
+            self.completionHandler = completionHandler
+        }
+    }
+    
+    class MockPlacemark : CLPlacemark {
+        var mockCoordinate: CLLocationCoordinate2D?
+        override var location: CLLocation? {
+            guard let coordinate = mockCoordinate else
+            { return CLLocation() }
+            return CLLocation(latitude: coordinate.latitude,
+                              longitude: coordinate.longitude)
+        }
+    }
+    
 }
