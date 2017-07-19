@@ -17,7 +17,7 @@ class InputViewController: UIViewController {
     lazy var geocoder = CLGeocoder()
     var coordinate: CLLocationCoordinate2D?
     
-    func search() {
+    @IBAction func search() {
         guard let address = addressTextField.text, address.characters.count > 0 else {
             return
         }

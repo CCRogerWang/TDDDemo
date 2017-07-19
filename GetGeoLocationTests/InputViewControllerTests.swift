@@ -49,6 +49,15 @@ class InputViewControllerTests: XCTestCase {
         mockGeocoder.completionHandler?([placemark], nil)
         XCTAssertEqual(coordinate, sut.coordinate)
     }
+    
+    func test_SearchButtonHasSearchAction() {
+        let searchButton: UIButton = sut.searchButton
+        guard let actions = searchButton.actions(forTarget: sut, forControlEvent: .touchUpInside) else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(actions.contains("search"))
+    }
 }
 
 extension CLLocationCoordinate2D: Equatable {}
