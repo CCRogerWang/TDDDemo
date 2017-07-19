@@ -9,6 +9,7 @@
 import UIKit
 
 class InputViewController: UIViewController {
-
+    
+    var addressTextField: UITextField!
 
 }
