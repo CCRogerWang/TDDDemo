@@ -7,6 +7,8 @@
 //
 
 import XCTest
+import CoreLocation
+@testable import GetGeoLocation
 
 class InputViewControllerTests: XCTestCase {
     
@@ -18,5 +20,10 @@ class InputViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    
+    func test_HasAddressTextField() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let sut = storyboard.instantiateViewController(withIdentifier: "InputViewController") as! InputViewController
+        _ = sut.view
+        XCTAssertNotNil(sut.addressTextField)
+    }
 }
