@@ -36,4 +36,21 @@ class InputViewControllerTests: XCTestCase {
     func test_HasGeoLabel() {
         XCTAssertNotNil(sut.geoLabel)
     }
+    
+    func test_Search_UseGeocoderToGetCoordinateFromAddress() {
+        let coordinate = CLLocationCoordinate2DMake(37.3316851,
+                                                    -122.0300674)
+        sut.addressTextField.text = "Infinite Loop 1, Cupertino"
+        let resultCoordinate = sut.searchCoordinate()
+        XCTAssertEqual(coordinate, resultCoordinate)
+        
+    }
+    
+    
+}
+
+extension CLLocationCoordinate2D: Equatable {}
+
+public func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+    return (lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude)
 }
